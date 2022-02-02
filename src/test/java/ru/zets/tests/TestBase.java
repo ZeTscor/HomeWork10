@@ -7,10 +7,7 @@ import helpers.Attach;
 import io.qameta.allure.Description;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.aeonbits.owner.ConfigFactory;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.*;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import ru.zets.pages.RegistrationPage;
 import ru.zets.data.DataGen;
@@ -20,23 +17,23 @@ public class TestBase {
 
     public DataGen data = new DataGen();
     public RegistrationPage registrationPage = new RegistrationPage();
-    public CredentialsConfig credentials =
+    public static CredentialsConfig credentials =
             ConfigFactory.create(CredentialsConfig.class);
-    String login = credentials.login();
-    String password = credentials.password();
+    static String login = credentials.login();
+    static String password = credentials.password();
+    static String selenoid = System.getProperty("selenoid","selenoid.autotests.cloud/wd/hub");
     @BeforeAll
     static void setup(){
         Configuration.startMaximized = true;
         SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
-        String selenoid = System.getProperty("selenoid","selenoid.autotests.cloud/wd/hub");
-        Configuration.remote = "https://%s:%s@"+selenoid;
+        Configuration.remote = "https://"+login+":"+password+"@"+selenoid;
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability("enableVNC",true);
         capabilities.setCapability("enableVideo",true);
         Configuration.browserCapabilities = capabilities;
 
     }
-    @AfterEach
+  @AfterEach
     public void teaedDown(){
         Attach.screenshotAs("Last screenshot");
         Attach.pageSource();
