@@ -48,3 +48,16 @@ tasks.withType(Test) {
         }
     }
 }
+
+task properties_test(type: Test){
+    useJUnitPlatform{
+        includeTags"properties"
+    }
+}
+task many_tags_tests(type: Test) {
+    useJUnitPlatform {
+        includeTags "properties"
+        includeTags "smoke"
+        includeTags "prod"
+    }
+}
