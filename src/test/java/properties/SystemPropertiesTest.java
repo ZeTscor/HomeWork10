@@ -1,5 +1,6 @@
 package properties;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 public class SystemPropertiesTest {
@@ -24,11 +25,13 @@ public class SystemPropertiesTest {
         //another_value
     }
     @Test
+    @Tag("properties")
     void someTest3(){
         String value = System.getProperty("browser", "chrome");
         System.out.println(value);
     }
     @Test
+    @Tag("properties")
     void someTest4(){
         String browser = System.getProperty("browser", "chrome");
         String version = System.getProperty("version", "91");
